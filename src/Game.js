@@ -33,7 +33,9 @@ class Game extends Component {
             isRolling: false,
             totalScore: 0,
             scoresLeft: 13,
-            gameOver: false
+            gameOver: false,
+            upperSectionScore: 0
+
         };
         this.roll = this.roll.bind(this);
         this.doScore = this.doScore.bind(this);
@@ -66,7 +68,8 @@ class Game extends Component {
             isRolling: false,
             totalScore: 0,
             scoresLeft: 13,
-            gameOver: false
+            gameOver: false,
+            upperSectionScore: 0
         });
     }
 
@@ -103,14 +106,25 @@ class Game extends Component {
     doScore(rulename, ruleFn) {
         // evaluate this ruleFn with the dice and score this rulename
         let points = ruleFn(this.state.dice);
-        this.setState(st => ({
-            scores: {...st.scores, [rulename]: points},
-            rollsLeft: NUM_ROLLS,
-            locked: Array(NUM_DICE).fill(false),// When a score is chosen, reset all dices to unlocked
-            totalScore: st.totalScore + points,
-            scoresLeft: st.scoresLeft - 1,
-            gameOver: st.scoresLeft <= 1
-        }));
+
+        if (rulename)
+            this.setState(st => ({
+                scores: {...st.scores, [rulename]: points},
+                rollsLeft: NUM_ROLLS,
+                locked: Array(NUM_DICE).fill(false),// When a score is chosen, reset all dices to unlocked
+                totalScore: st.totalScore + points,
+                scoresLeft: st.scoresLeft - 1,
+                upperSectionScore: st.upperSectionScore +
+                    (this.props.upperRules.includes(rulename) ? points : 0)
+            }), () => {
+                this.setState(st => ({gameOver: st.scoresLeft < 1}), () => {
+                    if (this.state.gameOver && this.state.upperSectionScore >= this.props.BONUS_THRESHOLD)
+                        this.setState(st => ({
+                            totalScore: st.totalScore + this.props.BONUS // Bonus of 35 points if upper section score >= 63 awarded at the end of the game
+                        }));
+                });
+            });
+
         this.roll(); // re-roll automatically when a score is chosen
     }
 
@@ -151,4 +165,9 @@ class Game extends Component {
     }
 }
 
+Game.defaultProps = {
+    upperRules: ["ones", "twos", "threes", "fours", "fives", "sixes"],
+    BONUS: 35,
+    BONUS_THRESHOLD: 63
+};
 export default Game;
