@@ -1,8 +1,9 @@
 # Yahtzee!
-### How To Use
+#### How To Use
 1. Clone the repository.
-2. Run the following:\
-<code>npm init</code>\
-<code>npm start</code>
-
+2. Run the following:
+```
+npm init
+npm start
+```
 3. Open [http://localhost:3000](http://localhost:3000) in your browser.
