@@ -63,7 +63,6 @@ class SumDistro extends Rule {
         } else {
             return 0;
         }
-
     };
 
     description = `${this.rule === 'threeOfKind' ? "Sum of all the dice which appear 3x" :
@@ -87,7 +86,6 @@ class FullHouse extends Rule {
         return uniques.size === 2 && check(it) ? this.score : 0;
     };
     description = `25 points - three of a kind and a pair`;
-
 }
 
 /** Check for small straights. */
@@ -95,7 +93,6 @@ class FullHouse extends Rule {
 class SmallStraight extends Rule {
     evalRoll = dice => {
         const uniques = new Set(dice);
-        console.log(dice);
 
         function check(a, b, c, d) {
             return uniques.has(a) && uniques.has(b) && uniques.has(c) && uniques.has(d);
@@ -109,7 +106,6 @@ class SmallStraight extends Rule {
     };
 
     description = `30 points - four consecutive die faces`;
-
 }
 
 /** Check for large straights. */
@@ -122,7 +118,6 @@ class LargeStraight extends Rule {
         return d.size === 5 && (!d.has(1) || !d.has(6)) ? this.score : 0;
     };
     description = `40 points - five consecutive die faces`;
-
 }
 
 /** Check if all dice are same. */
@@ -133,7 +128,6 @@ class Yahtzee extends Rule {
         return this.freq(dice)[0] === 5 ? this.score : 0;
     };
     description = `50 points - all dice are the same`;
-
 }
 
 // ones, twos, etc score as sum of that value

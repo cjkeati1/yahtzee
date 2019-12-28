@@ -3,10 +3,12 @@ import './ScoreDisplay.css'
 
 class ScoreDisplay extends Component {
     render() {
+        const {gameOver, totalScore} = this.props;
+
         return (
             <div className={'ScoreDisplay'}>
-                {this.props.gameOver && <p>Game Over</p>}
-                <p>Total Score: {this.props.totalScore}</p>
+                {gameOver && <p>Game Over</p>}
+                <p>{gameOver ? 'Final' : 'Total'} Score: {totalScore}</p>
             </div>
         );
     }

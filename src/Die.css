@@ -31,8 +31,22 @@
 .Die-rolling {
     animation: spin 1s ease-out;
 }
+
 .Die:not(.Die-locked).Die-unclickable {
     cursor: not-allowed;
+}
+
+@-webkit-keyframes rotating {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.Die-rotating-forever {
+    -webkit-animation: rotating 3s linear infinite;
 }
 
 .Die-rolling:hover,

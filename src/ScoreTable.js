@@ -17,11 +17,9 @@ import {
     chance
 } from './Rules';
 
-
 class ScoreTable extends Component {
-
     render() {
-        const {scores, doScore} = this.props;
+        const {scores, doScore, isRolling, hasStarted} = this.props;
 
         return (
             <div className="ScoreTable">
@@ -29,27 +27,27 @@ class ScoreTable extends Component {
                     <h2>Upper</h2>
                     <table cellSpacing="0">
                         <tbody>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Ones"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Ones"
                                  score={scores.ones}
                                  doScore={() => doScore("ones", ones.evalRoll)}
                                  description={ones.description}/>
-                        <RuleRow  isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Twos"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Twos"
                                  score={scores.twos}
                                  doScore={() => doScore("twos", twos.evalRoll)}
                                  description={twos.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Threes"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Threes"
                                  score={scores.threes}
                                  doScore={() => doScore("threes", threes.evalRoll)}
                                  description={threes.description}/>
-                        <RuleRow  isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Fours"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Fours"
                                  score={scores.fours}
                                  doScore={() => doScore("fours", fours.evalRoll)}
                                  description={fours.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Fives"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Fives"
                                  score={scores.fives}
                                  doScore={() => doScore("fives", fives.evalRoll)}
                                  description={fives.description}/>
-                        <RuleRow  isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Sixes"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Sixes"
                                  score={scores.sixes}
                                  doScore={() => doScore("sixes", sixes.evalRoll)}
                                  description={sixes.description}/>
@@ -60,31 +58,32 @@ class ScoreTable extends Component {
                     <h2>Lower</h2>
                     <table cellSpacing="0">
                         <tbody>
-                        <RuleRow key={this.props.val} isRolling={this.props.isRolling} hasStarted={this.props.hasStarted}
+                        <RuleRow isRolling={isRolling}
+                                 hasStarted={hasStarted}
                                  name="Three of a Kind" score={scores.threeOfKind}
                                  doScore={() => doScore("threeOfKind", threeOfKind.evalRoll)}
                                  description={threeOfKind.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted}
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted}
                                  name="Four of a Kind" score={scores.fourOfKind}
                                  doScore={() => doScore("fourOfKind", fourOfKind.evalRoll)}
                                  description={fourOfKind.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Full House"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Full House"
                                  score={scores.fullHouse}
-                                 doScore={evt => doScore("fullHouse", fullHouse.evalRoll)}
+                                 doScore={() => doScore("fullHouse", fullHouse.evalRoll)}
                                  description={fullHouse.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted}
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted}
                                  name="Small Straight" score={scores.smallStraight}
                                  doScore={() => doScore("smallStraight", smallStraight.evalRoll)}
                                  description={smallStraight.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted}
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted}
                                  name="Large Straight" score={scores.largeStraight}
                                  doScore={() => doScore("largeStraight", largeStraight.evalRoll)}
                                  description={largeStraight.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Yahtzee"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Yahtzee"
                                  score={scores.yahtzee}
                                  doScore={() => doScore("yahtzee", yahtzee.evalRoll)}
                                  description={yahtzee.description}/>
-                        <RuleRow isRolling={this.props.isRolling} hasStarted={this.props.hasStarted} name="Chance"
+                        <RuleRow isRolling={isRolling} hasStarted={hasStarted} name="Chance"
                                  score={scores.chance}
                                  doScore={() => doScore("chance", chance.evalRoll)}
                                  description={chance.description}/>

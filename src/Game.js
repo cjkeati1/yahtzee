@@ -6,6 +6,9 @@ import "./Game.css";
 
 const NUM_DICE = 5;
 const NUM_ROLLS = 3;
+const UPPER_SECTION = ["ones", "twos", "threes", "fours", "fives", "sixes"];
+const BONUS = 35;
+const BONUS_THRESHOLD = 63;
 
 class Game extends Component {
     constructor(props) {
@@ -73,7 +76,7 @@ class Game extends Component {
         });
     }
 
-    roll(evt) {
+    roll() {
         // roll dice whose indexes are in reroll
         this.setState(st => ({
             isRolling: true,
@@ -82,13 +85,15 @@ class Game extends Component {
                 st.locked[i] ? d : Math.ceil(Math.random() * 6) // if the dice is locked, keep as it is
             ),
             rollsLeft: st.rollsLeft - 1
-        }));
-        setTimeout(() => {
-            this.setState((st) => ({
-                isRolling: false,
-                locked: st.rollsLeft >= 1 ? st.locked : Array(NUM_DICE).fill(true)
-            }));
-        }, 1000);
+        }), () => {
+            setTimeout(() => {
+                this.setState((st) => ({
+                    isRolling: false,
+                    locked: st.rollsLeft >= 1 ? st.locked : Array(NUM_DICE).fill(true)
+                }));
+            }, 1000);
+        });
+
     }
 
     toggleLocked(idx) {
@@ -115,13 +120,18 @@ class Game extends Component {
                 totalScore: st.totalScore + points,
                 scoresLeft: st.scoresLeft - 1,
                 upperSectionScore: st.upperSectionScore +
-                    (this.props.upperRules.includes(rulename) ? points : 0)
+                    (UPPER_SECTION.includes(rulename) ? points : 0)
             }), () => {
                 this.setState(st => ({gameOver: st.scoresLeft < 1}), () => {
-                    if (this.state.gameOver && this.state.upperSectionScore >= this.props.BONUS_THRESHOLD)
+                    if (this.state.gameOver && this.state.upperSectionScore >= BONUS_THRESHOLD)
                         this.setState(st => ({
-                            totalScore: st.totalScore + this.props.BONUS // Bonus of 35 points if upper section score >= 63 awarded at the end of the game
+                            totalScore: st.totalScore + BONUS // Bonus of 35 points if upper section score >= 63 awarded at the end of the game
                         }));
+                    if (this.state.gameOver) {
+                        this.setState(st => ({
+                            dice: st.dice.map((d, i) => i + 1),
+                        }))
+                    }
                 });
             });
 
@@ -140,17 +150,18 @@ class Game extends Component {
                             locked={this.state.locked}
                             handleClick={this.toggleLocked}
                             hasStarted={this.state.hasStarted}
-                            isRolling={this.state.isRolling}
+                            isRolling={this.state.isRolling || this.state.gameOver}
+                            gameOver={this.state.gameOver}
                         />
                         <div className='Game-button-wrapper'>
                             <button
                                 className='Game-reroll'
                                 disabled={(this.state.locked.every(x => x) ||
-                                    this.state.rollsLeft <= 0) && !this.state.gameOver}
+                                    this.state.rollsLeft <= 0) && !this.state.gameOver || this.state.isRolling}
                                 onClick={this.state.isRolling ? null : (this.state.gameOver ? this.restartGame : this.roll)}
                             >
                                 {this.state.gameOver ? "Play Again?" : !this.state.hasStarted ? "Roll To Start!" : this.state.isRolling ?
-                                    "Rolling..." : this.state.rollsLeft + ` Roll${this.state.rollsLeft !== 1 ? 's' : ''} Left`}
+                                    "Rolling..." : this.state.rollsLeft !== 0 ? this.state.rollsLeft + ` Roll${this.state.rollsLeft !== 1 ? 's' : ''} Left` : 'Choose Score'}
                             </button>
                         </div>
                     </section>
@@ -165,9 +176,4 @@ class Game extends Component {
     }
 }
 
-Game.defaultProps = {
-    upperRules: ["ones", "twos", "threes", "fours", "fives", "sixes"],
-    BONUS: 35,
-    BONUS_THRESHOLD: 63
-};
 export default Game;
