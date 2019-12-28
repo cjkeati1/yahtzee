@@ -1,0 +1,6 @@
+.ScoreDisplay {
+    text-transform: uppercase ;
+    font-size: xx-large;
+    margin-bottom: 1em;
+    border-bottom: 2px solid purple;
+}
