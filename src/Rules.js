@@ -56,8 +56,13 @@ class SumDistro extends Rule {
         if (!this.count) {
             return this.sum(dice)
         }
-        // do any of the counts meet of exceed this distro?
-        return this.freq(dice).some(c => c >= this.count) ? dice[this.freq(dice).indexOf(this.count)] * this.count : 0;
+        const freq = this.freq(dice);
+        // do any of the counts meet or exceed this distro?
+        if (freq.some(c => c >= this.count)) {
+            return dice[freq.indexOf(freq.find(c => c >= this.count))] * this.count;
+        } else {
+            return 0;
+        }
 
     };
 
