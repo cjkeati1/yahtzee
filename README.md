@@ -1,5 +1,5 @@
 # Yahtzee!
-#### How To Use
+### How To Use
 1. Clone the repository.
 2. Run the following:
 ```
