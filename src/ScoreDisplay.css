@@ -4,3 +4,6 @@
     margin-bottom: 1em;
     border-bottom: 2px solid purple;
 }
+.ScoreDisplay p{
+    margin: .5em .5em 1em;
+}

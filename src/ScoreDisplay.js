@@ -7,7 +7,6 @@ class ScoreDisplay extends Component {
 
         return (
             <div className={'ScoreDisplay'}>
-                {gameOver && <p>Game Over</p>}
                 <p>{gameOver ? 'Final' : 'Total'} Score: {totalScore}</p>
             </div>
         );
