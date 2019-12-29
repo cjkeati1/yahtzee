@@ -156,8 +156,8 @@ class Game extends Component {
                         <div className='Game-button-wrapper'>
                             <button
                                 className='Game-reroll'
-                                disabled={(this.state.locked.every(x => x) ||
-                                    this.state.rollsLeft <= 0) && !this.state.gameOver || this.state.isRolling}
+                                disabled={((this.state.locked.every(x => x) ||
+                                    this.state.rollsLeft <= 0) || this.state.isRolling) && !this.state.gameOver}
                                 onClick={this.state.isRolling ? null : (this.state.gameOver ? this.restartGame : this.roll)}
                             >
                                 {this.state.gameOver ? "Play Again?" : !this.state.hasStarted ? "Roll To Start!" : this.state.isRolling ?
