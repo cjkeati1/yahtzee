@@ -73,17 +73,8 @@ class SumDistro extends Rule {
 
 class FullHouse extends Rule {
     evalRoll = dice => {
-        const uniques = new Set(dice);
-        let it = uniques.values();
-
-        function check(it) {
-            let valueA = it.next().value;
-            return dice.filter(i => i === valueA).length === 2 ||
-                dice.filter(i => i === valueA).length === 3;
-        }
-
-        // full house must have 2 unique values, one with two occurrences, and the other with three
-        return uniques.size === 2 && check(it) ? this.score : 0;
+        const freqs = this.freq(dice);
+        return freqs.includes(2) && freqs.includes(3) ? 25 : 0;
     };
     description = `25 points - three of a kind and a pair`;
 }
@@ -94,15 +85,15 @@ class SmallStraight extends Rule {
     evalRoll = dice => {
         const uniques = new Set(dice);
 
-        function check(a, b, c, d) {
-            return uniques.has(a) && uniques.has(b) && uniques.has(c) && uniques.has(d);
+        if (uniques.has(2) && uniques.has(3) && uniques.has(4) &&
+            (uniques.has(1) || uniques.has(5))) {
+            return this.score;
         }
-
-        // small straight must be 4 different dice
-        return uniques.size >= 4 &&
-        (check(1, 2, 3, 4) ||
-            check(2, 3, 4, 5) ||
-            check(3, 4, 5, 6)) ? this.score : 0;
+        if (uniques.has(3) && uniques.has(4) && uniques.has(5) &&
+            (uniques.has(2) || uniques.has(6))) {
+            return this.score;
+        }
+        return 0;
     };
 
     description = `30 points - four consecutive die faces`;

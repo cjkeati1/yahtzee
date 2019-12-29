@@ -3,12 +3,14 @@ import Dice from "./Dice";
 import ScoreTable from "./ScoreTable";
 import ScoreDisplay from "./ScoreDisplay";
 import "./Game.css";
+import {Random} from "random-js";
 
 const NUM_DICE = 5;
 const NUM_ROLLS = 3;
 const UPPER_SECTION = ["ones", "twos", "threes", "fours", "fives", "sixes"];
 const BONUS = 35;
 const BONUS_THRESHOLD = 63;
+const random = new Random(); // uses the nativeMath engine
 
 class Game extends Component {
     constructor(props) {
@@ -82,7 +84,7 @@ class Game extends Component {
             isRolling: true,
             hasStarted: true,
             dice: st.dice.map((d, i) =>
-                st.locked[i] ? d : Math.ceil(Math.random() * 6) // if the dice is locked, keep as it is
+                st.locked[i] ? d : random.integer(1, 6) // if the dice is locked, keep as it is
             ),
             rollsLeft: st.rollsLeft - 1
         }), () => {
