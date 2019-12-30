@@ -83,15 +83,14 @@ class Game extends Component {
         this.setState(st => ({
             isRolling: true,
             hasStarted: true,
-            dice: st.dice.map((d, i) =>
-                st.locked[i] ? d : random(1, 6) // if the dice is locked, keep as it is
-
-            ),
             rollsLeft: st.rollsLeft - 1
         }), () => {
             setTimeout(() => {
                 this.setState((st) => ({
                     isRolling: false,
+                    dice: st.dice.map((d, i) =>
+                        st.locked[i] ? d : random(1, 6) // if the dice is locked, keep as it is
+                    ),
                     locked: st.rollsLeft >= 1 ? st.locked : Array(NUM_DICE).fill(true)
                 }));
             }, 1000);
